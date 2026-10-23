@@ -37,6 +37,16 @@ describe("tree view accessible names", () => {
     expect(user).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("names array items by index instead of root", () => {
+    render(<TreeView output={'[{"a":{"b":1}},[2,[3]]]'} forceOpen={null} />);
+
+    expect(screen.getByRole("button", { name: "root" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "item 0" })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "item 1" })).toHaveLength(2);
+    expect(screen.getByRole("button", { name: "a" })).toBeInTheDocument();
+    expect(screen.queryAllByRole("button", { name: "root" })).toHaveLength(1);
+  });
+
   it("names the toolbar buttons Expand all and Collapse all", () => {
     render(<OutputPanel output={'{"a":1}'} />);
     fireEvent.click(screen.getByRole("button", { name: "Tree" }));

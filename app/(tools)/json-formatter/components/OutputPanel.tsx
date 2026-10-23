@@ -172,12 +172,14 @@ export function TreeView({ output, forceOpen }: { output: string; forceOpen: boo
 function TreeNode({
   value,
   name,
+  index,
   depth,
   isLast,
   forceOpen,
 }: {
   value: unknown;
   name: string | null;
+  index?: number;
   depth: number;
   isLast: boolean;
   forceOpen: boolean | null;
@@ -222,7 +224,7 @@ function TreeNode({
           type="button"
           onClick={() => setOpen((v) => !v)}
           className="w-4 h-[1.65em] shrink-0 flex items-center text-[var(--fg-dim)] hover:text-[var(--fg)] transition-colors"
-          aria-label={name ?? "root"}
+          aria-label={name ?? (depth === 0 ? "root" : `item ${index}`)}
           aria-expanded={open}
         >
           {open ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -255,6 +257,7 @@ function TreeNode({
               <TreeNode
                 key={k}
                 name={isArr ? null : k}
+                index={isArr ? i : undefined}
                 value={v}
                 depth={depth + 1}
                 isLast={i === entries.length - 1}
