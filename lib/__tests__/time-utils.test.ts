@@ -96,7 +96,11 @@ describe("toEpoch", () => {
     expect(toEpoch("Feb 30 2024").ok).toBe(false);
     expect(toEpoch("2024/02/30").ok).toBe(false);
     expect(toEpoch("30 February 2024").ok).toBe(false);
+    expect(toEpoch("02/30/2024").ok).toBe(false);
+    expect(toEpoch("2/30/2024").ok).toBe(false);
     expect(toEpoch("Tue, 31 Apr 2024 10:00:00 GMT").ok).toBe(false);
+    expect(toEpoch("02/29/2024").ok).toBe(true);
+    expect(toEpoch("12/31/2024").ok).toBe(true);
   });
 
   it("accepts month names followed by a four-digit year without a day", () => {
